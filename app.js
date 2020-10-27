@@ -81,6 +81,8 @@ app.use((req, res, next) => {
 // Compression
 app.use(compression());
 
+app.enable('trust proxy');
+
 // ROUTES
 app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
