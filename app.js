@@ -19,13 +19,16 @@ const viewRouter = require('./routes/viewRoutes');
 
 // Start express app
 const app = express();
-app.use(cors());
 
 // Template engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // GLOBAL MIDDLEWARES
+
+// CORS
+app.use(cors());
+app.options('*', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
