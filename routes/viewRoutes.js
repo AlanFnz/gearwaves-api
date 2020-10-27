@@ -6,6 +6,7 @@ const {
   getAccount,
   updateUserData,
   getMyTours,
+  alerts,
 } = require('../controllers/viewController');
 const {
   isLoggedIn,
@@ -15,6 +16,8 @@ const {
 // const { createBookingCheckout } = require('../controllers/bookingController');
 
 const router = express.Router();
+
+router.use(alerts);
 
 router.use(setHeaders);
 
