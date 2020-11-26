@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -11,28 +10,19 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const AppError = require('./utils/appError.js');
 const globalErrorHandler = require('./controllers/errorController.js');
-const tourRouter = require('./routes/tourRoutes');
+const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
-const bookingRouter = require('./routes/bookingRoutes');
-const { webhookCheckout } = require('./controllers/bookingController');
-const viewRouter = require('./routes/viewRoutes');
+const purchaseRouter = require('./routes/purchaseRoutes');
+const { webhookCheckout } = require('./controllers/purchaseController');
 
 // Start express app
 const app = express();
 
-// Template engine
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
-
 // GLOBAL MIDDLEWARES
 
-// CORS
 app.use(cors());
 app.options('*', cors());
-
-// Serving static files
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP Headers
 app.use(helmet());
@@ -51,7 +41,7 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// Stripe webook (we need raw request)
+// Stripe webhook (we need raw request)
 app.post(
   '/webhook-checkout',
   express.raw({ type: 'application/json' }),
@@ -95,11 +85,10 @@ app.use(compression());
 app.enable('trust proxy');
 
 // ROUTES
-app.use('/', viewRouter);
-app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/products', productRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
-app.use('/api/v1/bookings', bookingRouter);
+app.use('/api/v1/purchases', purchaseRouter);
 
 /////////
 

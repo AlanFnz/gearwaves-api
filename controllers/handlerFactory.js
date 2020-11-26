@@ -66,7 +66,7 @@ exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
     // To allow nested GET reviews on tour
     let filter = {};
-    if (req.params.tourId) filter = { tour: req.params.tourId };
+    if (req.params.productId) filter = { product: req.params.productId };
 
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
@@ -74,6 +74,7 @@ exports.getAll = Model =>
       .limitFields()
       .paginate();
     const doc = await features.query;
+    console.log(doc);
 
     res.status(200).json({
       status: 'success',
