@@ -4,6 +4,7 @@ const {
   getAllProducts,
   createProduct,
   getProduct,
+  viewProduct,
   updateProduct,
   deleteProduct,
   aliasTopProducts,
@@ -47,5 +48,9 @@ router
   .get(getProduct)
   .patch(protect, restrictTo('admin', 'lead-guide'), uploadProductImages, resizeProductImages, updateProduct)
   .delete(protect, restrictTo('admin', 'lead-guide'), deleteProduct);
+
+router
+  .route('/view/:slug')
+  .get(viewProduct)
 
 module.exports = router;

@@ -64,6 +64,25 @@ exports.aliasTopProducts = (req, res, next) => {
   next();
 };
 
+exports.viewProduct = catchAsync(async (req, res, next) => {
+  // Geting the data, for the requested product. Populate reviews
+  const product = await Product.findOne({ slug: req.params.slug }).populate({
+    path: 'reviews',
+    fields: 'review rating user',
+  });
+
+  if (!product) {
+    return next(new AppError('There is no product with that name.', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: product,
+    },
+  });
+});
+
 exports.getAllProducts = factory.getAll(Product);
 exports.getProduct = factory.getOne(Product, { path: 'reviews' });
 exports.createProduct = factory.createOne(Product);
