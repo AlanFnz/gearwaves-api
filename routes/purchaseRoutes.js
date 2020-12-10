@@ -9,7 +9,7 @@ router.use(protect);
 
 router.get('/checkout-session/:productId', getCheckoutSession);
 
-router.use(restrictTo('admin', 'sales-man'));
+router.use(restrictTo('admin', 'sales'));
 
 router
   .route('/')

@@ -41,13 +41,13 @@ router
 router
   .route('/')
   .get(getAllProducts)
-  .post(protect, restrictTo('admin', 'lead-guide'), createProduct);
+  .post(protect, restrictTo('admin', 'sales'), createProduct);
 
 router
   .route('/:id')
   .get(getProduct)
-  .patch(protect, restrictTo('admin', 'lead-guide'), uploadProductImages, resizeProductImages, updateProduct)
-  .delete(protect, restrictTo('admin', 'lead-guide'), deleteProduct);
+  .patch(protect, restrictTo('admin', 'sales'), uploadProductImages, resizeProductImages, updateProduct)
+  .delete(protect, restrictTo('admin', 'sales'), deleteProduct);
 
 router
   .route('/view/:slug')
