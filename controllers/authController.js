@@ -19,9 +19,13 @@ const createSendToken = (user, statusCode, req, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+    httpOnly: false,
+    // secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+    secure: false,
+    crossDomain: true,
   });
+
+  console.log(res);
 
   user.password = undefined;
 
@@ -66,8 +70,9 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, req, res);
 });
 
-// For rendered pages
+// Check if the user is logged
 exports.isLoggedIn = async (req, res, next) => {
+  console.log(req.cookies);
   if (req.cookies.jwt) {
     try {
       // Verifying token
@@ -84,8 +89,14 @@ exports.isLoggedIn = async (req, res, next) => {
       if (currentUser.changedPasswordAfter(decoded.iat)) {
         return next();
       }
-      res.locals.user = currentUser;
+      res.status(200).json({
+        status: 'success',
+        data: {
+          currentUser,
+        },
+      });
     } catch (err) {
+      console.log(err);
       return next();
     }
   }

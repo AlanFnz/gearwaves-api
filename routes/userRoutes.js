@@ -16,6 +16,7 @@ const {
   signup,
   login,
   logout,
+  isLoggedIn,
   forgotPassword,
   resetPassword,
   updatePassword,
@@ -37,6 +38,10 @@ router
 router
   .route('/logout')
   .get(logout);
+
+router
+  .route('/logged')
+  .get(isLoggedIn)
 
 router
   .route('/forgotPassword')

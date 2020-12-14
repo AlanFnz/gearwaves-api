@@ -22,7 +22,18 @@ const app = express();
 
 // GLOBAL MIDDLEWARES
 
-app.use(cors());
+const corsOptions = {
+  // To allow requests from client
+  origin: [
+    'http://localhost:3000',
+    'http://127.0.0.1',
+    'http://localhost:8000',
+  ],
+  credentials: true,
+  // exposedHeaders: ['set-cookie'],
+};
+
+app.use(cors(corsOptions));
 app.options('*', cors());
 
 // Serving static files
