@@ -25,8 +25,6 @@ const createSendToken = (user, statusCode, req, res) => {
     crossDomain: true,
   });
 
-  console.log(res);
-
   user.password = undefined;
 
   res.status(statusCode).json({
@@ -72,7 +70,6 @@ exports.login = catchAsync(async (req, res, next) => {
 
 // Check if the user is logged
 exports.isLoggedIn = async (req, res, next) => {
-  console.log(req.cookies);
   if (req.cookies.jwt) {
     try {
       // Verifying token
@@ -81,22 +78,21 @@ exports.isLoggedIn = async (req, res, next) => {
         process.env.JWT_SECRET
       );
       // Checking user existence
-      const currentUser = await User.findById(decoded.id);
-      if (!currentUser) {
+      const user = await User.findById(decoded.id);
+      if (!user) {
         return next();
       }
       // Checking password changed affter issuing token
-      if (currentUser.changedPasswordAfter(decoded.iat)) {
+      if (user.changedPasswordAfter(decoded.iat)) {
         return next();
       }
       res.status(200).json({
         status: 'success',
         data: {
-          currentUser,
+          user,
         },
       });
     } catch (err) {
-      console.log(err);
       return next();
     }
   }
