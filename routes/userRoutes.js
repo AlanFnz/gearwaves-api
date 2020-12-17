@@ -23,6 +23,8 @@ const {
   protect,
   restrictTo
 } = require('../controllers/authController');
+const { getAllPurchases } = require('../controllers/purchaseController');
+const { getAllReviews } = require('../controllers/reviewController');
 
 const router = express.Router();
 
@@ -69,6 +71,14 @@ router
 router
   .route('/deleteMe')
   .delete(deleteMe);
+
+router
+  .route('/purchases')
+  .get(getAllPurchases)
+
+router
+  .route('/reviews')
+  .get(getAllReviews)
 
 // Restrict routes from this point
 router.use(restrictTo('admin'));
