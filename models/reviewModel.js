@@ -6,6 +6,14 @@ const reviewSchema = new mongoose.Schema(
     review: {
       type: String,
       required: true,
+      maxlength: [
+        160,
+        'A product review must have less or equal than 160 characters',
+      ],
+      minlength: [
+        10,
+        'A product name must have more or equal than 10 characters',
+      ],
     },
     rating: {
       type: Number,
