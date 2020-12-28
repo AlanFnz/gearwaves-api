@@ -4,6 +4,7 @@ const {
   getAllUsers,
   createUser,
   getUser,
+  getExperts,
   updateUser,
   deleteUser,
   updateMe,
@@ -87,6 +88,10 @@ router
   .route('/')
   .get(getAllUsers)
   .post(createUser);
+
+router
+  .route('/experts')
+  .get(getExperts)
 
 router
   .route('/:id')

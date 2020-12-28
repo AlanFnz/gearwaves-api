@@ -3,6 +3,7 @@ const sharp = require('sharp');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const APIFeatures = require('../utils/apiFeatures');
 const factory = require('./handlerFactory');
 
 // Multer uploader
@@ -100,6 +101,25 @@ exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
+
+exports.getExperts = catchAsync(async (req, res, next) => {
+  const filter = { role: { $in: ['technical', 'sales'] } };
+
+  const features = new APIFeatures(User.find(filter), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const doc = await features.query;
+
+  res.status(200).json({
+    status: 'success',
+    results: doc.length,
+    data: {
+      data: doc,
+    },
+  });
+});
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user._id, { active: false });
