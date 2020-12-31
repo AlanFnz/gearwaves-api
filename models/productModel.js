@@ -90,7 +90,7 @@ const productSchema = new mongoose.Schema(
           enum: ['Point'],
         },
         coordinates: [Number],
-        address: String,
+        name: String,
         description: String,
       },
     ],
