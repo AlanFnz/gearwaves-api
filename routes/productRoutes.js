@@ -12,7 +12,8 @@ const {
   getProductsWithin,
   getDistances,
   uploadProductImages,
-  resizeProductImages
+  resizeImageCover,
+  resizeImages
 } = require('../controllers/productController');
 const {
   protect,
@@ -46,7 +47,7 @@ router
 router
   .route('/:id')
   .get(getProduct)
-  .patch(protect, restrictTo('admin', 'sales'), uploadProductImages, resizeProductImages, updateProduct)
+  .patch(protect, restrictTo('admin', 'sales'), uploadProductImages, resizeImageCover, resizeImages, updateProduct)
   .delete(protect, restrictTo('admin', 'sales'), deleteProduct);
 
 router

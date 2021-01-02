@@ -26,13 +26,14 @@ const upload = multer({
 
 exports.uploadProductImages = upload.fields([
   { name: 'imageCover', maxCount: 1 },
-  { name: 'images', maxCount: 3 },
+  { name: 'imageLeft', maxCount: 1 },
+  { name: 'imageCenter', maxCount: 1 },
+  { name: 'imageRight', maxCount: 1 },
 ]);
 
-exports.resizeProductImages = catchAsync(async (req, res, next) => {
-  if (!req.files || !req.files.imageCover || !req.files.images) return next();
+exports.resizeImageCover = catchAsync(async (req, res, next) => {
+  if (!req.files || !req.files.imageCover) return next();
 
-  // 1) Cover image
   req.body.imageCover = `product-${req.params.id}-${Date.now()}-cover.jpeg`;
   await sharp(req.files.imageCover[0].buffer)
     .resize(2000, 1333)
@@ -40,19 +41,65 @@ exports.resizeProductImages = catchAsync(async (req, res, next) => {
     .jpeg({ quality: 90 })
     .toFile(`public/img/products/${req.body.imageCover}`);
 
-  // 2) Images
-  req.body.images = [];
-  await Promise.all(
-    req.files.images.map(async (file, i) => {
-      const filename = `product-${req.params.id}-${Date.now()}-${i + 0}.jpeg`;
-      await sharp(file.buffer)
-        .resize(2000, 1333)
-        .toFormat('jpeg')
-        .jpeg({ quality: 60 })
-        .toFile(`public/img/products/${filename}`);
-      req.body.images.push(filename);
-    })
-  );
+  next();
+});
+
+exports.resizeImages = catchAsync(async (req, res, next) => {
+  if (!req.files) return next();
+
+  if (!req.files.imageLeft && !req.files.imageCenter && !req.files.imageRight)
+    return next();
+
+  const imagesIndex = ['imageLeft', 'imageCenter', 'imageRight'];
+  try {
+    await Promise.all(
+      imagesIndex.map(async (index, i) => {
+        if (typeof req.files[index] !== 'undefined') {
+          req.body[index] = `product-${req.params.id}-${Date.now()}-${
+            i + 0
+          }.jpeg`;
+          await sharp(req.files[index][0].buffer)
+            .resize(2000, 1333)
+            .toFormat('jpeg')
+            .jpeg({ quality: 60 })
+            .toFile(`public/img/products/${req.body[index]}`);
+        }
+      })
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  next();
+});
+
+exports.resizeProductImages = catchAsync(async (req, res, next) => {
+  if (!req.files) return next();
+
+  if (req.file.imageCover) {
+    // 1) Cover image
+    req.body.imageCover = `product-${req.params.id}-${Date.now()}-cover.jpeg`;
+    await sharp(req.files.imageCover[0].buffer)
+      .resize(2000, 1333)
+      .toFormat('jpeg')
+      .jpeg({ quality: 90 })
+      .toFile(`public/img/products/${req.body.imageCover}`);
+  }
+
+  if (req.files.images || req.file.images) {
+    // 2) Images
+    req.body.images = [];
+    await Promise.all(
+      req.files.images.map(async (file, i) => {
+        const filename = `product-${req.params.id}-${Date.now()}-${i + 0}.jpeg`;
+        await sharp(file.buffer)
+          .resize(2000, 1333)
+          .toFormat('jpeg')
+          .jpeg({ quality: 60 })
+          .toFile(`public/img/products/${filename}`);
+        req.body.images.push(filename);
+      })
+    );
+  }
 
   next();
 });

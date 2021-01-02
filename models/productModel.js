@@ -66,11 +66,26 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A product must have a cover image'],
     },
-    images: [String],
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-      select: false,
+    imageLeft: {
+      type: String,
+      required: [
+        true,
+        'A product must have a cover image and three product images',
+      ],
+    },
+    imageCenter: {
+      type: String,
+      required: [
+        true,
+        'A product must have a cover image and three product images',
+      ],
+    },
+    imageRight: {
+      type: String,
+      required: [
+        true,
+        'A product must have a cover image and three product images',
+      ],
     },
     madeIn: {
       type: {
