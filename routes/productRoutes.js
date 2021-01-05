@@ -12,7 +12,6 @@ const {
   getProductsWithin,
   getDistances,
   uploadProductImages,
-  resizeImageCover,
   resizeImages
 } = require('../controllers/productController');
 const {
