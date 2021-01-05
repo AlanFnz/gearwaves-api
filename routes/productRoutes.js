@@ -47,7 +47,7 @@ router
 router
   .route('/:id')
   .get(getProduct)
-  .patch(protect, restrictTo('admin', 'sales'), uploadProductImages, resizeImageCover, resizeImages, updateProduct)
+  .patch(protect, restrictTo('admin', 'sales'), uploadProductImages, resizeImages, updateProduct)
   .delete(protect, restrictTo('admin', 'sales'), deleteProduct);
 
 router
