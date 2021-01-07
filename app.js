@@ -78,11 +78,10 @@ app.use(xss());
 app.use(
   hpp({
     whitelist: [
-      'duration',
+      'warrantly',
       'ratingsQuantity',
       'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
+      'stock',
       'price',
     ],
   })
