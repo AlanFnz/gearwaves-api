@@ -12,7 +12,7 @@ const reviewSchema = new mongoose.Schema(
       ],
       minlength: [
         10,
-        'A product name must have more or equal than 10 characters',
+        'A product review must have more or equal than 10 characters',
       ],
     },
     rating: {
@@ -85,7 +85,7 @@ reviewSchema.pre(/^find/, function (next) {
 });
 
 reviewSchema.post('save', function () {
-  this.constructor.calcAverageRatings(this.product);
+  this.constructor.calcAverageRatings(this.product, 'sum');
 });
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
