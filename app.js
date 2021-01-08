@@ -32,7 +32,7 @@ const corsOptions = {
     'https://gearwaves-api.herokuapp.com',
   ],
   credentials: true,
-  // exposedHeaders: ['set-cookie'],
+  exposedHeaders: ['set-cookie'],
 };
 
 app.use(cors(corsOptions));
