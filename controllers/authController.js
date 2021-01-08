@@ -26,6 +26,8 @@ const createSendToken = (user, statusCode, req, res) => {
     sameSite: 'none',
   });
 
+  res.set('jwt', token);
+
   user.password = undefined;
 
   res.status(statusCode).json({
