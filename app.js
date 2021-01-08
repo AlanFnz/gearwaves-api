@@ -29,6 +29,7 @@ const corsOptions = {
     'http://127.0.0.1',
     'http://localhost:8000',
     'https://gearwaves-cli.herokuapp.com',
+    'https://gearwaves-api.herokuapp.com',
   ],
   credentials: true,
   // exposedHeaders: ['set-cookie'],
