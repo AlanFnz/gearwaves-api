@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const purchaseSchema = new mongoose.Schema({
-  tour: {
+  product: {
     type: mongoose.Schema.ObjectId,
     ref: 'Product',
     required: [true, 'A purchase operation must belong to a Product'],
