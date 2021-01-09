@@ -19,7 +19,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     success_url: `${req.protocol}://${req.get(
       'host'
     )}/my-products?alert=purchase`,
-    cancel_url: `${req.protocol}://${req.get('host')}/product/${product.slug}`,
+    cancel_url: `${req.protocol}://${process.env.CLIENT_URL}/product/${product.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.productId,
     line_items: [
