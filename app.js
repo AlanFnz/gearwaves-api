@@ -81,7 +81,7 @@ app.use(xss());
 app.use(
   hpp({
     whitelist: [
-      'warrantly',
+      'warranty',
       'ratingsQuantity',
       'ratingsAverage',
       'stock',

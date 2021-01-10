@@ -20,9 +20,9 @@ const productSchema = new mongoose.Schema(
       ],
     },
     slug: String,
-    warrantly: {
+    warranty: {
       type: Number,
-      required: [true, 'A product must have a warrantly'],
+      required: [true, 'A product must have a warranty'],
     },
     stock: {
       type: Number,
