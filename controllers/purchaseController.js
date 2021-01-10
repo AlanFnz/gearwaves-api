@@ -16,7 +16,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     //   req.params.productId
     // }&user=${req.user.id}&price=${product.price}`,
     // Final method
-    success_url: `${req.protocol}://gearwaves-cli.herokuapp.com/my-products?alert=purchase`,
+    success_url: `${req.protocol}://gearwaves-cli.herokuapp.com/success`,
     cancel_url: `${req.protocol}://gearwaves-cli.herokuapp.com/products/${product.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.productId,
